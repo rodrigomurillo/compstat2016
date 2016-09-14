@@ -26,12 +26,8 @@ shinyServer(function(input, output) {
     n_min = input$n_min
     n_max = input$n_max
     alpha = input$alpha
-    #g = input$funcion
-    
-    # 
-    # draw the histogram with the specified number of bins
-    # hist(x, breaks = bins, col = 'darkgray', border = 'white')
-    
+    a = input$a
+    b = input$b
     # Autor: Rodrigo Murillo
     # Clave única: 110183
     # 
@@ -43,8 +39,8 @@ shinyServer(function(input, output) {
     #     alpha: confianza de los intervalos
     #
     #-------------------------------------------
-    a = 0
-    b = 1
+    #a = 0
+    #b = 1
     #g = function(x) (log(1/x))^3 - factorial(3)
     #alpha = 0.05
     #n_sim = 100
