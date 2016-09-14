@@ -12,7 +12,7 @@ library(shiny)
 # Define server logic required to draw a histogram
 shinyServer(function(input, output) {
 
-  fun_g <- reactive({
+  g <- reactive({
     texto <- paste("aux <- ", input$funcion)
     eval(parse(text=texto))
     aux
@@ -45,7 +45,7 @@ shinyServer(function(input, output) {
     #-------------------------------------------
     a = 0
     b = 1
-    g = function(x) (log(1/x))^3 - factorial(3)
+    #g = function(x) (log(1/x))^3 - factorial(3)
     #alpha = 0.05
     #n_sim = 100
     #-------------------------------------------
@@ -54,7 +54,7 @@ shinyServer(function(input, output) {
     result = replicate(n_sim, {
       n = floor(runif(1 ,n_min, n_max))
       x = runif(n, min=a, max=b)
-      g_x = sapply(x , g)
+      g_x = sapply(x , g())
       est = mean(g_x)
       CI = est + c(-1,1)*qnorm(1-alpha/2)*sqrt(var(g_x)/n)
       (c(n,est,CI[1],CI[2]))

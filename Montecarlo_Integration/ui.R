@@ -31,7 +31,7 @@ shinyUI(fluidPage(
       textInput(
         inputId="funcion", 
         label="Función g",
-        value="function(x) 2*x"
+        value="function(x) (log(1/x))^3 - factorial(3)"
       ),
       sliderInput("a", "a", min=-30, max=30, value=0),
       sliderInput("b", "b", min=-30, max=30, value=1),
