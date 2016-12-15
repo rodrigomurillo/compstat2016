@@ -88,6 +88,8 @@ shinyServer(function(input,output,session){
   
   #--------------------------------------Tarea 4,5,6------------------------------------------------------   
 
+  # Esta tarea la hice con mi equipo: José Carlos Castro y Augusto Hernández
+  
   base<<-Boston[c("medv", "lstat" ,"crim", "indus", "black", "ptratio")]
   
   output$table <- renderDataTable(base,
@@ -121,10 +123,10 @@ shinyServer(function(input,output,session){
     sourceCpp("BayesianMHLinReg.cpp")
     
     nsim <- input$N4
-    init <- rep(0,ncol(x)+1) # Take intercept into account
+    init <- rep(0,ncol(x)+1) 
     sigma_init <- 1
     mh.samp <- MHBayesLinReg(nsim, init, sigma_init, objdens, proposal,
-                             cbind(1,as.matrix(x)), y) # 1 for intercept
+                             cbind(1,as.matrix(x)), y) 
     estims <<- mh.samp$theta
     estims_sigma <<- mh.samp$sigma
     str(mh.samp)
@@ -205,21 +207,6 @@ shinyServer(function(input,output,session){
     abline(98.0054, 0.9528)
   })
   
-  # plot(input$dep) 
-  # plot(wt, mpg, main="Scatterplot Example", 
-  #      xlab="Car Weight ", ylab="Miles Per Gallon ", pch=19)
-  # for (i in 1:num){
-  #   signo='+'
-  #   if(Comparison$betahat[i+1]<0){signo=''}
-  #   texto=paste(,Comparison$betahat[i+1])
-  # }
-  #abline(98.0054, 0.9528)
-  # reg1 <- lm(write~read)
-  # par(cex=.8)
-  # plot(read, write)
-  # abline(reg1)
-  # 
-  #############
   
   output$tableMH2 <- renderUI({
     Rcpp_In()

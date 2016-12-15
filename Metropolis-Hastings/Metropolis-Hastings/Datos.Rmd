@@ -1,0 +1,74 @@
+---
+title: "Diseño y set up"
+author: "Rodrigo Murillo"
+date: "November 16, 2016"
+output: html_document
+---
+
+Elegir la base de datos a utilizar
+```{r}
+library(dplyr)
+polls = read.csv("2016-general-election-trump-vs-clinton.csv", header = T)
+names(polls)
+# Agrupar los datos por fecha usando la media de las encuestas publicadas en el día
+data = group_by(polls, End.Date)
+
+
+ media= polls %>% 
+   group_by(End.Date)%>%
+   summarise(Clinton_Wins=sum(Clinton)/length(Clinton), Trump_Wins=sum(Trump)/length(Trump))
+ 
+media$Fecha_diaria = paste(substr(media$End.Date,9,10), substr(media$End.Date,6,7),substr(media$End.Date,1,4),sep="/")
+
+peso = read.table("Peso-Dolar.txt",header = T)
+
+data = merge(media, peso, by = "Fecha_diaria")
+data$Date = paste(substr(data$Fecha_diaria,7,10),substr(data$Fecha_diaria,4,5),substr(data$Fecha_diaria,1,2),sep="")
+
+data = data[data$Date >= 20160601,]
+
+plot(data$Clinton_Wins,data$Máximo_venta)
+plot(data$Trump_Wins,data$Máximo_venta)
+
+mod = lm(Máximo_venta ~ Clinton_Wins, data=data)
+summary(mod)
+mod = lm(Máximo_venta ~ Trump_Wins, data=data)
+summary(mod)
+
+cor(data[data$Date >= 20160601,]$Clinton_Wins, data[data$Date >= 20160601,]$Máximo_venta)
+cor(data[data$Date >= 20160601,]$Trump, data[data$Date >= 20160601,]$Máximo_venta)
+
+cor(data[data$Date >= 20160801,]$Clinton_Wins, data[data$Date >= 20160801,]$Máximo_venta)
+cor(data[data$Date >= 20160801,]$Trump, data[data$Date >= 20160801,]$Máximo_venta)
+```
+
+
+Elegimos los datos de Trump, ya que son los que tienen mayor relación con el tipo de cambio entre el peso y el dólar.
+
+```{r}
+peso = data[data$Date >= 20160801,]$Máximo_venta
+trump = data[data$Date >= 20160801,]$Trump_Wins
+```
+
+$$\theta =  (a, beta, \sigma^{2})$$
+y la función de verosimilitud es de la forma:
+
+$$L(\theta) = \sqrt{2\pi\sigma^{2}}^{N/2}  e^{Y-Xb-a}^{t(Y-Xb-a)/(2 sigma^2)}$$
+
+```{r, engine='Rcpp'}
+#include <Rcpp.h>
+using namespace Rcpp;
+
+// [[Rcpp::export]]
+double prior_normal(double theta, double prior_mu, double prior_s) {
+  return exp (((theta-prior_mu)/((2*prior_s)*(2*prior_s)) )) / prior_s;
+}
+
+```
+
+
+```{r}
+plot(sapply(-1e3:-1e3, prior_normal, 0,1))
+```
+
+

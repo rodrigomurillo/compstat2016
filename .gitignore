@@ -1,0 +1,61 @@
+# History files
+.Rhistory
+
+# Example code in package build process
+*-Ex.R
+# R data files from past sessions
+.Rdata
+# RStudio files
+.Rproj.user/
+# Archivos de datos
+*.zip
+*.tar.gz
+*.rar
+*.raw
+*.rds
+*.Rdata
+**/*/.DS_Store
+.Rproj.user
+packrat/lib*/
+packrat/src/
+**/*.tgz
+**/*.pdf
+**/*.ppt*
+**/*.html
+**/custfile*
+**/*.asc
+**/*.feather
+**/*.csv
+**/*.ods
+**/*.doc*
+
+**/__pycache__/*
+**/_minted-models/*
+**/auto/*
+**/pyshow/*
+**/.ipynb_checkpoints/*
+
+# LaTeX
+*.aux
+*.glo
+*.idx
+*.log
+*.toc
+*.ist
+*.acn
+*.acr
+*.alg
+*.bbl
+*.blg
+*.dvi
+*.glg
+*.gls
+*.ilg
+*.ind
+*.lof
+*.lot
+*.maf
+*.mtc
+*.mtc1
+*.out
+*.synctex.gz
